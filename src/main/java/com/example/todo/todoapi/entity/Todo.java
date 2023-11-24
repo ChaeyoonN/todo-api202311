@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tbl_todo")
 public class Todo {
-    @Id
-    @GeneratedValue(generator = "system-uuid" )
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Id // 기본키 지정
+    @GeneratedValue(generator = "system-uuid" ) // 값 지정
+    @GenericGenerator(name = "system-uuid", strategy = "uuid") // 커스텀한 값(uuid)
     private String todoId;
 
     @Column(nullable = false, length = 30)
