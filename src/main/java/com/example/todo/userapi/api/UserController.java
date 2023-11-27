@@ -1,7 +1,7 @@
 package com.example.todo.userapi.api;
 
-import com.example.todo.userapi.dto.UserRequestSignUpDTO;
-import com.example.todo.userapi.dto.UserSignUpResponseDTO;
+import com.example.todo.userapi.dto.request.UserRequestSignUpDTO;
+import com.example.todo.userapi.dto.response.UserSignUpResponseDTO;
 import com.example.todo.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;

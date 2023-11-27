@@ -1,4 +1,4 @@
-package com.example.todo.userapi.dto;
+package com.example.todo.userapi.dto.request;
 
 import com.example.todo.userapi.entity.User;
 import lombok.*;
