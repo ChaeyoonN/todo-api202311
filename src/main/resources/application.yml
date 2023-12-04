@@ -15,6 +15,10 @@ spring:
     hibernate:
       ddl-auto: update # ?? DDL ?? ?? -> create? ???? ??? ???? ??? ?? ??.
     database: mysql # DB ?? ??
+  servlet:
+    multipart:
+      max-file-size: 10MB # 1개의 파일의 최대 사이즈
+      max-request-size: 20MB #전체 요청의 최대 사이즈
 
 logging.level:
   org.hibernate.SQL: debug
@@ -26,3 +30,12 @@ springdoc:
 
 jwt:
   secret: R1YXckCppGjhrO+fMQyW0usyjE6qkqIccIt2wubPxK+qqe/Zd5C5ho4VM3yH1wiRqHE5dlmleJo42uyEjKOzRg==
+
+kakao:
+  client_id: 04bf2102930638d50066e885d1e31edb
+  redirect_url: http://localhost:3000/oauth/redirected/kakao
+  client_secret: SmW8WBLAutyUe23Q78v0IRTtQkFrSq14
+
+# 업로드 파일 저장 경로
+upload:
+  path: c:/todo_upload

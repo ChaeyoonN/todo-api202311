@@ -35,23 +35,24 @@ public class TodoController {
         if(result.hasErrors()) {
             log.warn("DTO 검증 에러 발생: {}", result.getFieldError());
             return ResponseEntity
-                    .badRequest()
+                    .badRequest() // 400
                     .body(result.getFieldError());
         }
 
         try {
             TodoListResponseDTO responseDTO = todoService.create(requestDTO, userInfo);
             return ResponseEntity
-                    .ok()
+                    .ok() // 200
                     .body(responseDTO);
         } catch (IllegalStateException e){
             // 권한 때문에 발생한 예외
             log.warn(e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED) // 401
+                    .body(e.getMessage());
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity
-                    .internalServerError()
+                    .internalServerError() // 500
                     .body(TodoListResponseDTO
                             .builder()
                             .error(e.getMessage())
