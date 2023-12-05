@@ -6,6 +6,7 @@ import com.example.todo.userapi.dto.request.LoginRequestDTO;
 import com.example.todo.userapi.dto.request.UserRequestSignUpDTO;
 import com.example.todo.userapi.dto.response.LoginResponseDTO;
 import com.example.todo.userapi.dto.response.UserSignUpResponseDTO;
+import com.example.todo.userapi.entity.User;
 import com.example.todo.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -149,6 +150,9 @@ public class UserController {
             // 모든 사용자가 프로필 사진을 가지는 것은 아니다. -> 프사가 없는 사랍들은 경로가 존재하지 않을 것이다.
             // 만약 존재하지 않는 경로라면 클라이언트로 404 status를 리턴.
             if(!profileFile.exists()){
+                if(filePath.startsWith("http://")){
+                    return ResponseEntity.ok().body(filePath);
+                }
                 return ResponseEntity.notFound().build();
             }
 
@@ -198,9 +202,21 @@ public class UserController {
     @GetMapping("/kakaoLogin")
     public ResponseEntity<?> kakaoLogin(String code) {
         log.info("/api/auth/kakaoLogin - GET! -code: {}", code);
-        userService.kakaoService(code);
+        LoginResponseDTO responseDTO = userService.kakaoService(code);
 
-        return null;
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    // 로그아웃 처리
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(
+            @AuthenticationPrincipal TokenUserInfo userInfo // 토큰에서 userInfo 꺼내오기
+    ){
+        log.info("/api/auth/logout - GET! - user: {}", userInfo.getEmail());
+
+        String result = userService.logout(userInfo); // 카카오 로그인 한 사람인 경우: id, 아닌 경우 null.
+
+        return ResponseEntity.ok().body(result);
     }
 
 

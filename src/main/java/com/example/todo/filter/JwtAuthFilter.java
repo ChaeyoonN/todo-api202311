@@ -41,7 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             log.info("JWT Token Filter is running... - token: {}", token);
 
             // 토큰 위조검사 및 인증 완료 처리
-            if(token != null) {
+            if(token != null && !token.equals("null")) {
                 // 토큰 서명 위조 검사와 토큰을 파싱해서 클레임을 얻어내는 작업
                 TokenUserInfo userInfo
                         = tokenProvider.validateAndGetTokenUserInfo(token);
