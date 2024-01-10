@@ -32,6 +32,15 @@ import java.io.IOException;
 public class UserController {
 
     private final UserService userService;
+    private final String profileImage = "profileImage";
+
+    // 토큰 값 얻어오기
+    @GetMapping("/status")
+    public ResponseEntity<?> status(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ) {
+        return ResponseEntity.ok().build();
+    }
 
     // 이메일 중복 확인 요청 처리
     // GET: /api/auth/check?email=zzzz@xxx.com
@@ -51,7 +60,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> signUp(
             @Validated @RequestPart("user") UserRequestSignUpDTO dto,
-            @RequestPart(value = "profileImage", required = false) MultipartFile profileImg,
+            @RequestPart(value = profileImage, required = false) MultipartFile profileImg,
             BindingResult result
     ) {
         log.info("/api/auth POST! - {}", dto);
@@ -217,6 +226,23 @@ public class UserController {
         String result = userService.logout(userInfo); // 카카오 로그인 한 사람인 경우: id, 아닌 경우 null.
 
         return ResponseEntity.ok().body(result);
+    }
+
+    // s3에서 불러온 프로필 사진 처리
+    @GetMapping("/load-s3")
+    public ResponseEntity<?> loadS3(
+            @AuthenticationPrincipal TokenUserInfo userInfo
+    ) {
+        log.info("/api/auth/load-s3 - GET - user: {}", userInfo);
+
+        try {
+            String profilePath = userService.findProfilePath(userInfo.getUserId());
+            return ResponseEntity.ok().body(profilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
 

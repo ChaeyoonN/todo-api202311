@@ -78,7 +78,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         } catch (Exception e) {
             e.printStackTrace();
-            log.info("서명이 일치하지 않습니다! 토큰이 위조 되었습니다!");
+            log.warn("서명이 일치하지 않습니다! 토큰이 위조 되었습니다!");
         }
 
         // 필터 체인에 내가 만든 필터 실행 명령

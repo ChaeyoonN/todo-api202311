@@ -27,6 +27,7 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
@@ -48,6 +49,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 //
                 // /api/auth/** 은 permit이지만, /promote는 검증이 필요하기 때문에 추가.(순서 조심!)
+                .antMatchers(HttpMethod.GET, "/api/auth/status").authenticated()
                 .antMatchers(HttpMethod.PUT, "/api/auth/promote")
                 .authenticated()
                 //
